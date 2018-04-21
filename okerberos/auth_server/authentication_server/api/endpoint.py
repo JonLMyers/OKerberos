@@ -4,7 +4,7 @@ import hashlib
 from Crypto.Cipher import AES
 from flask import jsonify, request
 from flask_restful import Resource, reqparse
-from application_server import rest_api
+from authentication_server import rest_api
 
 class OAuth_Endpoint(Resource):
     def post(self):

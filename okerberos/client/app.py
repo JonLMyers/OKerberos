@@ -6,7 +6,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
     data = parser.parse_args()
     username = data['username']
@@ -20,4 +20,4 @@ def login():
     print(r.text)
     data = json.loads(r.text)
     print(data)
-app.run()
+app.run(Debug=True)

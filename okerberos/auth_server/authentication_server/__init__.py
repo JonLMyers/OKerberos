@@ -11,4 +11,5 @@ CORS(app)
 app.config.from_pyfile('config.py')
 rest_api = Api(app)
 
-import application_server.api.endpoint
+import authentication_server.api.endpoint
+rest_api.add_resource(authentication_server.api.endpoint.OAuth_Endpoint, '/login')
