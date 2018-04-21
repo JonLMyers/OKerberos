@@ -1,10 +1,13 @@
 import requests, json
 from flask import Flask, render_template, request
 from flask_restful import Resource, reqparse
+
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
-@app.route('/')
+
+
+@app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
