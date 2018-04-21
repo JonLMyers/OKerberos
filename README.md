@@ -22,6 +22,13 @@ is provided
 
 ## Running Client
 
+
+    okerberos client
+
+
 ## Running App Server
 
 ## Running Authentication Server
+
+
+    okerberos authserver
