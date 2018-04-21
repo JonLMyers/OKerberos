@@ -4,7 +4,6 @@ import hashlib
 from Crypto.Cipher import AES
 from flask import jsonify, request
 from flask_restful import Resource, reqparse
-from authentication_server import rest_api
 
 class OAuth_Endpoint(Resource):
     def post(self):
@@ -26,7 +25,7 @@ class OAuth_Endpoint(Resource):
         data = json.loads(r.text)
         status = data['Auth']
         token = data['Token']
-        print(status)        
+        print(status)
 
         if status == 'success' and token != '':
             encryption_suite = AES.new('I_Love_Candy', AES.MODE_CBC, 'Candy_Is_Good')
