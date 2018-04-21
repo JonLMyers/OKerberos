@@ -8,11 +8,12 @@ from authentication_server import rest_api
 
 class OAuth_Endpoint(Resource):
     def post(self):
-        data = parser.parse_args()
-        m = hashlib.sha256()
+        data = request.get_json()
         username = data['username']
         password = data['password']
-        password_hash = m.update(password).digest()
+
+        hash_object = hashlib.sha256(password.encode('UTF-8'))
+        password_hash = hash_object.hexdigest()
 
         if username == '' or password == '':
             return{'Auth': 'Fail', 'Token': ''}, 500
