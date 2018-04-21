@@ -2,7 +2,14 @@
 A complete set of services to show a simplified example of how Oauth Authentication
 is provided
 
- # Installation
+#Requirements
+ - setuptools
+
+    pip3 install setuptools
+
+
+
+# Installation
  To install dependencies and run scripts
 
     sudo python3 setup.py install
