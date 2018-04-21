@@ -20,4 +20,7 @@ def login():
     print(r.text)
     data = json.loads(r.text)
     print(data)
-app.run(Debug=True)
+
+
+def run():
+    app.run(debug=True)

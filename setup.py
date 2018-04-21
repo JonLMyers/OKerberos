@@ -27,7 +27,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     entry_points={
         'console_scripts': [
-
+             'okerberos = okerberos.commands:execute',
         ],
     },
     install_requires=install_requires,
