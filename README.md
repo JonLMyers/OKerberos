@@ -2,8 +2,10 @@
 A complete set of services to show a simplified example of how Oauth Authentication
 is provided
 
-#Requirements
+# Requirements
+
  - setuptools
+ 
 
     pip3 install setuptools
 
