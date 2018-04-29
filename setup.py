@@ -8,7 +8,8 @@ install_requires = [
     "gevent>=1.2.1",
     "colorlog>=3.0.1",
     'PyNaCl~=1.1.0',
-    'base58~=0.2.2'
+    'base58~=0.2.2',
+    'pycrypto'
 
 ]
 setup(
