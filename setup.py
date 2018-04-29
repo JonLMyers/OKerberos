@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
 install_requires = [
     'pysha3~=1.0.2',
-    'cryptoconditions~=0.6.0.dev',
     'flask>=0.10.1',
     'flask-cors~=3.0.0',
     'flask-restful~=0.3.0',
