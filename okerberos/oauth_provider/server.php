@@ -1,3 +1,4 @@
+<?php
 $dsn      = 'mysql:dbname=my_oauth2_db;host=localhost';
 $username = 'root';
 $password = 'root';
@@ -20,3 +21,5 @@ $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
 
 // Add the "Authorization Code" grant type (this is where the oauth magic happens)
 $server->addGrantType(new OAuth2\GrantType\AuthorizationCode($storage));
+
+?>
