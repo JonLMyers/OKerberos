@@ -6,6 +6,8 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 
+token = None
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
@@ -22,7 +24,14 @@ def login():
     print(r.status_code, r.reason)
     print(r.text)
     data = json.loads(r.text)
-    print(data)
+    token = data['Token']
+    return "retrieved Token!"
+
+@app.route('/forwardtoken', methods=['GET'])
+def forwardtoken():
+    
+
+
 
 
 def run():
