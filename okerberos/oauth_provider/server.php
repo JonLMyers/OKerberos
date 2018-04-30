@@ -1,6 +1,6 @@
 $dsn      = 'mysql:dbname=my_oauth2_db;host=localhost';
 $username = 'root';
-$password = '';
+$password = 'root';
 
 // error reporting (this is a demo, after all!)
 ini_set('display_errors',1);error_reporting(E_ALL);

@@ -9,7 +9,8 @@ install_requires = [
     "colorlog>=3.0.1",
     'PyNaCl~=1.1.0',
     'base58~=0.2.2',
-    'pycrypto'
+    'pycrypto',
+    'mysql'
 
 ]
 setup(

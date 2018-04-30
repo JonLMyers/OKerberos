@@ -1,3 +1,4 @@
+
 CREATE TABLE oauth_clients (
   client_id             VARCHAR(80)   NOT NULL,
   client_secret         VARCHAR(80),

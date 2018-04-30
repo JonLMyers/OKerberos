@@ -5,7 +5,7 @@ is provided
 # Requirements
 
  - setuptools
- 
+
 
     pip3 install setuptools
 
@@ -21,6 +21,13 @@ is provided
 
     sudo python3 setup.py develop
 
+## Create Required Database
+
+    CREATE DATABASE my_oauth2_db;
+
+Update Database with schema and seed with one authorized user
+
+    mysql -u root -p my_oauth2_db < db.sql 
 
 # Services
 
