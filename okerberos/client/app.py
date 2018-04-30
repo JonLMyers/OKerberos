@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 
-token = None
+token = { }
 
 @app.route('/', methods=['GET'])
 def index():
@@ -33,16 +33,17 @@ def login():
     print(r.status_code, r.reason)
     print(r.text)
     data = json.loads(r.text)
-    token = data['Token']
+    token['Token'] = data['Token']
     return "retrieved Token!"
 
 @app.route('/forwardtoken', methods=['GET'])
 def forwardtoken():
+        print(token)
         target = 'http://127.0.0.1:5002/'
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        data = {"echo" : "Hello",  "Token" : token}
-        r = requests.get(target, data=json.dumps(data), headers=headers)
-
+        data = {"echo" : "Hello",  "Token" : token["Token"]}
+        r = requests.post(target, data=json.dumps(data), headers=headers)
+        return r.text
 
 
 
