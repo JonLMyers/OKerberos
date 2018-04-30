@@ -30,22 +30,21 @@ class OAuth_Endpoint(Resource):
         password = data['password']
 
         hash_object = sha3.sha3_256(password.encode())
-        password_hash = hash_object.hexdigest()
+        password_hash = hash_object.digest()
         if username == '' or password == '':
             return{'Auth': 'Fail', 'Token': ''}, 500
-
+        pwkey = nacl.secret.SecretBox(password_hash)
         oauth_resp = requests.post(self.target, data=self.access_token_data, verify=False, allow_redirects=False)
         access = json.loads(oauth_resp.text)
 
         token = access['access_token']
 
         if requests.codes.ok == oauth_resp.status_code and token != '':
-
-            print(token)
             cipher_text = self.box.encrypt(token.encode(), encoder=Base64Encoder)
-            print("Cipher Text" , cipher_text)
             encoded_ciphertext = cipher_text.decode('utf8')
             unencrypt_json = {'Auth': 'Success', 'Token': encoded_ciphertext }
-            return unencrypt_json, 200
+            encrypted_message = pwkey.encrypt(json.dumps(unencrypt_json).encode(), encoder=Base64Encoder)
+            print("sending message")
+            return {'message' : encrypted_message.decode('utf8')}, 200
         else:
             return{'Error': 'Invalid Arguments'}, 500

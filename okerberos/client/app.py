@@ -36,7 +36,11 @@ def login():
     app.logger.info(userlog + " " + passlog)
 
     data = json.loads(r.text)
-    token['Token'] = data['Token']
+    hash_object = sha3.sha3_256(password.encode())
+    password_hash = hash_object.hexdigest()
+    pwkey = nacl.secret.SecretBox(password_hash)
+    print(data)
+    #token['Token'] = data['Token']
     return "retrieved Token!"
 
 @app.route('/forwardtoken', methods=['GET'])
