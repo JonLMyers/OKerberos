@@ -37,10 +37,11 @@ def login():
 
     data = json.loads(r.text)
     hash_object = sha3.sha3_256(password.encode())
-    password_hash = hash_object.hexdigest()
+    password_hash = hash_object.digest()
     pwkey = nacl.secret.SecretBox(password_hash)
-    print(data)
-    #token['Token'] = data['Token']
+    decrypted_respo = pwkey.decrypt(data['message'].encode('utf8'), encoder=Base64Encoder)
+    dumped_respo = json.loads(decrypted_respo.decode('utf8'))
+    token["Token"] = dumped_respo["Token"]
     return "retrieved Token!"
 
 @app.route('/forwardtoken', methods=['GET'])
