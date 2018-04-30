@@ -1,6 +1,15 @@
-import requests, json
-from flask import Flask, render_template, request
+from flask import jsonify, request,  Flask , render_template
 from flask_restful import Resource, reqparse
+import os
+import json
+import requests
+import sha3
+import base58
+import base64
+import nacl.secret
+import nacl.utils
+from nacl.encoding import Base64Encoder
+
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -29,7 +38,12 @@ def login():
 
 @app.route('/forwardtoken', methods=['GET'])
 def forwardtoken():
-    
+        target = 'http://127.0.0.1:5002/'
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        data = {"echo" : "Hello",  "Token" : token}
+        r = requests.get(target, data=json.dumps(data), headers=headers)
+
+
 
 
 

@@ -1,18 +1,14 @@
+from flask import jsonify, request
+from flask_restful import Resource, reqparse
 import os
 import json
 import requests
 import sha3
-import nacl.secret
-import nacl.utils
 import base58
 import base64
+import nacl.secret
+import nacl.utils
 from nacl.encoding import Base64Encoder
-from flask import jsonify, request
-from flask_restful import Resource, reqparse
-from requests.auth import HTTPBasicAuth
-from oauthlib.oauth2 import BackendApplicationClient
-from requests_oauthlib import OAuth2Session
-from okerberos.utils import encode as encodestuff
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
