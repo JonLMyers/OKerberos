@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, Flask
 from flask_restful import Resource, reqparse
 import os
 import json
@@ -6,6 +6,8 @@ import requests
 import sha3
 import base58
 import base64
+import colors
+
 import nacl.secret
 import nacl.utils
 from nacl.encoding import Base64Encoder
@@ -43,8 +45,8 @@ class OAuth_Endpoint(Resource):
             cipher_text = self.box.encrypt(token.encode(), encoder=Base64Encoder)
             encoded_ciphertext = cipher_text.decode('utf8')
             unencrypt_json = {'Auth': 'Success', 'Token': encoded_ciphertext }
+            print(unencrypt_json)
             encrypted_message = pwkey.encrypt(json.dumps(unencrypt_json).encode(), encoder=Base64Encoder)
-            print("sending message")
             return {'message' : encrypted_message.decode('utf8')}, 200
         else:
             return{'Error': 'Invalid Arguments'}, 500

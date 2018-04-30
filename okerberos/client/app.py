@@ -41,6 +41,9 @@ def login():
     pwkey = nacl.secret.SecretBox(password_hash)
     decrypted_respo = pwkey.decrypt(data['message'].encode('utf8'), encoder=Base64Encoder)
     dumped_respo = json.loads(decrypted_respo.decode('utf8'))
+
+    app.logger.info(colors.color("{}={}".format('Descrpted response', dumped_respo),fg='red'))
+
     token["Token"] = dumped_respo["Token"]
     return "retrieved Token!"
 
