@@ -7,7 +7,7 @@ $password = 'root';
 ini_set('display_errors',1);error_reporting(E_ALL);
 
 // Autoloading (composer is preferred, but for this example let's just do this)
-require_once('oauth2-server-php/src/OAuth2/Autoloader.php');
+require_once('oauth2/src/OAuth2/Autoloader.php');
 OAuth2\Autoloader::register();
 
 // $dsn is the Data Source Name for your database, for exmaple "mysql:dbname=my_oauth2_db;host=localhost"
