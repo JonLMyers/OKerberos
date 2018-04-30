@@ -14,4 +14,4 @@ rest_api = Api(app)
 rest_api.add_resource(OAuth_Endpoint, '/login')
 
 def run():
-    app.run(host='127.0.0.1', port=5001)
+    app.run(host='127.0.0.1', port=5001,debug=True)

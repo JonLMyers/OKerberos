@@ -33,7 +33,7 @@ Update Database with schema and seed with one authorized user
 
 copy the root contents of oauth_provider to /var/www/html
 
-  cp oauth_provider/* /var/www/html
+    cp oauth_provider/* /var/www/html
 
 Test connection with
 

@@ -10,7 +10,7 @@ install_requires = [
     'PyNaCl~=1.1.0',
     'base58~=0.2.2',
     'pycrypto',
-    'mysql'
+    'requests_oauthlib'
 
 ]
 setup(

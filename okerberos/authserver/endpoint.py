@@ -1,41 +1,55 @@
+import os
 import json
 import requests
-import hashlib
-from Crypto.Cipher import AES
+import sha3
+import nacl.secret
+import nacl.utils
+import base58
+import base64
+from nacl.encoding import Base64Encoder
 from flask import jsonify, request
 from flask_restful import Resource, reqparse
+from requests.auth import HTTPBasicAuth
+from oauthlib.oauth2 import BackendApplicationClient
+from requests_oauthlib import OAuth2Session
+from okerberos.utils import encode as encodestuff
+
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+
 
 class OAuth_Endpoint(Resource):
+
+    target = 'http://127.0.0.1/token.php'
+    key = b'\xbe?_\xdd\xdb\x02z\xc3\x8b\xf5\xdc\x0b\xdey\xf5\xa0rT\x10\x87>6\x8c\xba\x18Galt*\x1f\xee'
+    box = nacl.secret.SecretBox(key)
+    client_id = "testclient"
+    client_secret = "testpass"
+    access_token_data = {"grant_type": "client_credentials","client_id": client_id,"client_secret": client_secret}
+    key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
+
     def post(self):
         data = request.get_json()
         username = data['username']
         password = data['password']
 
-        hash_object = hashlib.sha256(password.encode('UTF-8'))
+        hash_object = sha3.sha3_256(password.encode())
         password_hash = hash_object.hexdigest()
-
         if username == '' or password == '':
             return{'Auth': 'Fail', 'Token': ''}, 500
 
-        target = 'http://127.0.0.1:5002/login'
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        data = {'username': username, 'password': password}
-        r = requests.post(target, data=json.dumps(data), headers=headers)
-        print(r.status_code, r.reason)
-        print(r.text)
-        data = json.loads(r.text)
-        status = data['Auth']
-        token = data['Token']
-        print(status)
 
-        if status == 'success' and token != '':
-            encryption_suite = AES.new('I_Love_Candy', AES.MODE_CBC, 'Candy_Is_Good')
-            cipher_text = encryption_suite.encrypt(token)
-            unencrypt_json = {'Auth': 'Success', 'Token': cipher_text}
-            encryption_suite = AES.new(password_hash, AES.MODE_CBC, 'Candy_Is_Good')
-            cipher_text = encryption_suite.encrypt(cipher_text)
-            return{'Token': cipher_text}, 200
+        oauth_resp = requests.post(self.target, data=self.access_token_data, verify=False, allow_redirects=False)
+        access = json.loads(oauth_resp.text)
+        print(oauth_resp.text)
 
 
+        token = access['access_token']
+
+        if requests.codes.ok == oauth_resp.status_code and token != '':
+            cipher_text = self.box.encrypt(token.encode(), encoder=Base64Encoder)
+            encoded_ciphertext = cipher_text.decode('utf8')
+            unencrypt_json = {'Auth': 'Success', 'Token': encoded_ciphertext }
+            return unencrypt_json, 200
         else:
             return{'Error': 'Invalid Arguments'}, 500
