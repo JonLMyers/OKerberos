@@ -27,7 +27,18 @@ is provided
 
 Update Database with schema and seed with one authorized user
 
-    mysql -u root -p my_oauth2_db < db.sql 
+    mysql -u root -p my_oauth2_db < db.sql
+
+## Add PHP oauth Server
+
+copy the root contents of oauth_provider to /var/www/html
+
+  cp oauth_provider/* /var/www/html
+
+Test connection with
+
+  curl -u testclient:testpass http://localhost/token.php -d 'grant_type=client_credentials'
+  {"access_token":"03807cb390319329bdf6c777d4dfae9c0d3b3c35","expires_in":3600,"token_type":"bearer","scope":null}
 
 # Services
 
