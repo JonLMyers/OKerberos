@@ -37,7 +37,6 @@ class OAuth_Endpoint(Resource):
         oauth_resp = requests.post(self.target, data=self.access_token_data, verify=False, allow_redirects=False)
         access = json.loads(oauth_resp.text)
 
-
         token = access['access_token']
 
         if requests.codes.ok == oauth_resp.status_code and token != '':

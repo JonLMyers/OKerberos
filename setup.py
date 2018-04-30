@@ -10,7 +10,8 @@ install_requires = [
     'PyNaCl~=1.1.0',
     'base58~=0.2.2',
     'pycrypto',
-    'requests_oauthlib'
+    'requests_oauthlib',
+    'ansicolors'
 
 ]
 setup(

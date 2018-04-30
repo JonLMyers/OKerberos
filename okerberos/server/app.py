@@ -9,6 +9,7 @@ import base64
 import nacl.secret
 import nacl.utils
 from nacl.encoding import Base64Encoder
+import colors
 
 app = Flask(__name__)
 
@@ -24,11 +25,10 @@ def index():
         token = data["Token"]
     else:
         return "Unathorized"
+    decrypted_token = box.decrypt(token.encode("utf8"), encoder=Base64Encoder)
+    dt = colors.color("{}={}".format('Token', decrypted_token), fg='blue')
+    app.logger.info(dt)
 
-
-    print(token.encode("utf8"))
-    cipher_text = box.decrypt(token.encode("utf8"), encoder=Base64Encoder)
-    print(cipher_text)
 
     return data['echo']
 def run():

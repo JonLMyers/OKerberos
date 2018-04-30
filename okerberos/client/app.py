@@ -6,6 +6,8 @@ import requests
 import sha3
 import base58
 import base64
+import colors
+
 import nacl.secret
 import nacl.utils
 from nacl.encoding import Base64Encoder
@@ -30,8 +32,9 @@ def login():
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     data = {'username': username, 'password': password}
     r = requests.post(target, data=json.dumps(data), headers=headers)
-    print(r.status_code, r.reason)
-    print(r.text)
+    userlog , passlog  = colors.color("{}={}".format('username', username), fg='blue') , colors.color("{}={}".format('pass', password), fg='red')
+    app.logger.info(userlog + " " + passlog)
+
     data = json.loads(r.text)
     token['Token'] = data['Token']
     return "retrieved Token!"
