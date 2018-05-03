@@ -32,10 +32,11 @@ def login():
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     r = requests.get(target, headers=headers)
     data = json.loads(r.text)
-    public_key = data['Pub_key']
+    public_key = nacl.public.PublicKey(data['Pub_Key'].encode(), encoder=Base64Encoder)
+    print(public_key)
     sealed_box = SealedBox(public_key)
     data = {'username': username, 'password': password}
-    encrypted_msg = publickey.encrypt(json.dumps(data).encode(), encoder=Base64Encoder).decode('utf8')
+    encrypted_msg = sealed_box.encrypt(json.dumps(data).encode(), encoder=Base64Encoder).decode('utf8')
     target = 'http://127.0.0.1:5001/login'
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     data = {'message': encrypted_msg}

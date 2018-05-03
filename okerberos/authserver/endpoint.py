@@ -27,6 +27,7 @@ class OAuth_Endpoint(Resource):
     access_token_data = {"grant_type": "client_credentials","client_id": client_id,"client_secret": client_secret}
     privatekey = None
     publickey = None
+    privatekey = PrivateKey.generate()
 
     #key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
 
@@ -36,10 +37,10 @@ class OAuth_Endpoint(Resource):
         unsealed_box = SealedBox(self.privatekey)
         decoded_decrypted_msg = unsealed_box.decrypt(decoded_encrypted_msg)
 
-        data = decoded_decrypted_msg.get_json()
-
+        data = json.loads(decoded_decrypted_msg.decode())
         username = data['username']
         password = data['password']
+        print(data)
 
         hash_object = sha3.sha3_256(password.encode())
         password_hash = hash_object.digest()
@@ -63,14 +64,5 @@ class OAuth_Endpoint(Resource):
 
     def get(self):
         # RSA modulus length must be a multiple of 256 and >= 1024
-<<<<<<< HEAD
-        modulus_length = 256*4 # use larger value in production
-        self.privatekey = RSA.generate(modulus_length, Random.new().read)
-        self.publickey = self.privatekey.publickey()
-        print(self.publickey.exportKey().decode())
-=======
-	    modulus_length = 256*4 # use larger value in production
-	    self.privatekey = PrivateKey.generate()
-	    self.publickey = self.privatekey.public_key
->>>>>>> 9b5174ca8f7a9cb25037dd11e89613c3a178fa7d
+        self.publickey = self.privatekey.public_key.encode(encoder=nacl.encoding.Base64Encoder()).decode('utf-8')
         return {'Pub_Key': self.publickey}, 200
