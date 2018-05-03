@@ -1,8 +1,5 @@
 from flask import jsonify, request,  Flask , render_template
 from flask_restful import Resource, reqparse
-from Crypto import Random
-from Crypto.PublicKey import RSA
-import base64
 import os
 import json
 import requests
@@ -11,14 +8,14 @@ import base58
 import base64
 import colors
 
+from nacl.public import PrivateKey, SealedBox
+from nacl.encoding import Base64Encoder
 import nacl.secret
 import nacl.utils
-from nacl.encoding import Base64Encoder
 
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-
 
 token = { }
 
@@ -36,14 +33,12 @@ def login():
     r = requests.get(target, headers=headers)
     data = json.loads(r.text)
     public_key = data['Pub_key']
-
+    sealed_box = SealedBox(public_key)
     data = {'username': username, 'password': password}
-    encrypted_msg = publickey.encrypt(data, 32)[0]
-	encoded_encrypted_msg = base64.b64encode(encrypted_msg) # base64 encoded strings are database friendly
-
+    encrypted_msg = publickey.encrypt(json.dumps(data).encode(), encoder=Base64Encoder).decode('utf8')
     target = 'http://127.0.0.1:5001/login'
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    data = {'message': encoded_encrypted_msg}
+    data = {'message': encrypted_msg}
     r = requests.post(target, data=json.dumps(data), headers=headers)
 
     userlog , passlog  = colors.color("{}={}".format('username', username), fg='blue') , colors.color("{}={}".format('pass', password), fg='red')

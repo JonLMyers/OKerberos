@@ -34,10 +34,10 @@ class OAuth_Endpoint(Resource):
     def post(self):
         data = request.get_json()
         decoded_encrypted_msg = base64.b64decode(data['message'])
-	    decoded_decrypted_msg = self.privatekey.decrypt(decoded_encrypted_msg)
-        
+        decoded_decrypted_msg = self.privatekey.decrypt(decoded_encrypted_msg)
+
         data = decoded_decrypted_msg.get_json
-        
+
         username = data['username']
         password = data['password']
 
@@ -63,7 +63,8 @@ class OAuth_Endpoint(Resource):
 
     def get(self):
         # RSA modulus length must be a multiple of 256 and >= 1024
-	    modulus_length = 256*4 # use larger value in production
-	    self.privatekey = RSA.generate(modulus_length, Random.new().read)
-	    self.publickey = privatekey.publickey()
+        modulus_length = 256*4 # use larger value in production
+        self.privatekey = RSA.generate(modulus_length, Random.new().read)
+        self.publickey = self.privatekey.publickey()
+        print(self.publickey.exportKey().decode())
         return {'Pub_Key': self.publickey}, 200
