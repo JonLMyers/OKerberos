@@ -7,7 +7,7 @@ install_requires = [
     'requests~=2.9',
     "gevent>=1.2.1",
     "colorlog>=3.0.1",
-    'PyNaCl~=1.1.0',
+    'PyNaCl~=1.2.1',
     'base58~=0.2.2',
     'pycrypto',
     'requests_oauthlib',

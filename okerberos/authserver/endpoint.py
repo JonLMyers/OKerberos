@@ -1,7 +1,6 @@
 from flask import jsonify, request, Flask
 from flask_restful import Resource, reqparse
-from Crypto import Random
-from Crypto.PublicKey import RSA
+from nacl.public import PrivateKey, SealedBox
 import os
 import json
 import requests
@@ -33,10 +32,11 @@ class OAuth_Endpoint(Resource):
 
     def post(self):
         data = request.get_json()
-        decoded_encrypted_msg = base64.b64decode(data['message'])
-        decoded_decrypted_msg = self.privatekey.decrypt(decoded_encrypted_msg)
+        decoded_encrypted_msg = base64.b64decode(data['message'].encode('utf8'))
+        unsealed_box = SealedBox(self.privatekey)
+        decoded_decrypted_msg = unsealed_box.decrypt(decoded_encrypted_msg)
 
-        data = decoded_decrypted_msg.get_json
+        data = decoded_decrypted_msg.get_json()
 
         username = data['username']
         password = data['password']
@@ -63,8 +63,14 @@ class OAuth_Endpoint(Resource):
 
     def get(self):
         # RSA modulus length must be a multiple of 256 and >= 1024
+<<<<<<< HEAD
         modulus_length = 256*4 # use larger value in production
         self.privatekey = RSA.generate(modulus_length, Random.new().read)
         self.publickey = self.privatekey.publickey()
         print(self.publickey.exportKey().decode())
+=======
+	    modulus_length = 256*4 # use larger value in production
+	    self.privatekey = PrivateKey.generate()
+	    self.publickey = self.privatekey.public_key
+>>>>>>> 9b5174ca8f7a9cb25037dd11e89613c3a178fa7d
         return {'Pub_Key': self.publickey}, 200
