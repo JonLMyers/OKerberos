@@ -2,6 +2,12 @@
 A complete set of services to show a simplified example of how Oauth Authentication
 is provided
 
+# Modification
+Please Modify the code and files if you are attempting to do anything with it -_-
+
+
+- Daniel Harrington
+
 # Requirements
 
  - setuptools
