@@ -18,7 +18,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 class OAuth_Endpoint(Resource):
 
-    target = 'http://127.0.0.1/token.php'
+    target = 'https://127.0.0.1/token.php'
     key = b'\xbe?_\xdd\xdb\x02z\xc3\x8b\xf5\xdc\x0b\xdey\xf5\xa0rT\x10\x87>6\x8c\xba\x18Galt*\x1f\xee'
     box = nacl.secret.SecretBox(key)
     client_id = "testclient"
