@@ -30,8 +30,19 @@ def login():
 
     target = 'http://127.0.0.1:5001/login'
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    r = requests.get(target, headers=headers)
+    data = json.loads(r.text)
+    public_key = data['Pub_key']
+
     data = {'username': username, 'password': password}
+    encrypted_msg = publickey.encrypt(data, 32)[0]
+	encoded_encrypted_msg = base64.b64encode(encrypted_msg) # base64 encoded strings are database friendly
+
+    target = 'http://127.0.0.1:5001/login'
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    data = {'message': encoded_encrypted_msg}
     r = requests.post(target, data=json.dumps(data), headers=headers)
+
     userlog , passlog  = colors.color("{}={}".format('username', username), fg='blue') , colors.color("{}={}".format('pass', password), fg='red')
     app.logger.info(userlog + " " + passlog)
 
