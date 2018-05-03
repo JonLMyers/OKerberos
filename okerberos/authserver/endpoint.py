@@ -50,3 +50,7 @@ class OAuth_Endpoint(Resource):
             return {'message' : encrypted_message.decode('utf8')}, 200
         else:
             return{'Error': 'Invalid Arguments'}, 500
+
+    def get(self):
+        key = 'Insert Key Here'
+        return {'Pub_Key': key}, 200
